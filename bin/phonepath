@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#shellcheck source=../lib/bash-tools/lib.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/bash-tools/lib.sh"
+
+# 'mtp:host=Google_Pixel_FA68V0302024'
+
+phonepath() {
+  find /run/user/"$(id -u)"/gvfs/ -mindepth 1 -maxdepth 1 -type d | \
+    while read -r _dir; do
+      _type=$(basename "$_dir" | cut -d: -f 1)
+      _host=$(basename "$_dir" | cut -d= -f 2)
+
+      log_info "Found device: type=$_type, host=$_host"
+      if [[ "$_type" == "mtp" ]]; then
+        echo "$_dir"
+        break
+      fi
+    done
+}
+
+dir=$(phonepath)
+if [[ -z "$dir" ]]; then
+  log_err "Phone not plugged in?"
+  exit 1
+fi
+
+dir="$dir/Internal shared storage"
+if [[ ! -d "$dir" ]]; then
+  log_err "Phone not set to transfer mode?"
+  exit 1
+fi
+
+echo "$dir"

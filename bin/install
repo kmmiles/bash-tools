@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#shellcheck source=../lib/bash-tools/lib.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/bash-tools/lib.sh"
+
+# link the lib directory
+mkdir -p "$HOME"/.local/lib
+rm -f "$HOME"/.local/lib/bash-tools
+symlink "$__ROOT"/lib/bash-tools "$HOME"/.local/lib/bash-tools
+
+# link each bin
+for b in "$__ROOT"/bin/*; do
+  bn=$(basename "$b")
+  if [[ "$bn" != "install" ]]; then
+    mkdir -p "$HOME"/.local/bin
+    symlink "$b" "$HOME"/.local/bin/"$bn"
+  fi
+done
+

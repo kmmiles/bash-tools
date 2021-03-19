@@ -1,0 +1,80 @@
+#!/bin/bash
+
+#shellcheck source=../lib/bash-tools/lib.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/bash-tools/lib.sh"
+
+usage() {
+  cat << EOF >&2
+Usage: $(basename "$0") <ADP> <ATTUNEMENT>
+
+Calculates agility score for Dark Souls 2.
+EOF
+}
+
+isnum() { [[ "$1" =~ ^[0-9]+$ ]]; }
+stripdec() { echo "$1" | cut -d. -f 1 ; }
+
+adp="${1:-}"
+atn="${2:-}"
+
+if [[ -z "$adp" || -z "$atn" ]]; then
+  usage
+  exit 1
+fi
+
+if ! isnum "$adp" || ! isnum "$atn"; then
+  2>&1 echo "ADP and ATTUNEMENT must be numbers"
+  exit 1
+fi
+
+x="$(calc "${atn} + (3 * ${adp})")"
+
+if [[ $x -gt 120 ]]; then
+  # When ATN + (3 * ADP) is greater than 120: (((ATN + (3 * ADP)) - 120) / 28) + 110.
+  agi="$(calc "((($atn + (3 * $adp)) - 120) / 28) + 110")"
+else
+  # When ATN + (3 * ADP) is less than or equal to 120: ((ATN + (3 * ADP)) / 4) + 80.
+  agi="$(calc "(($atn + (3 * $adp)) / 4) + 80")"
+fi
+
+agi="$(stripdec "$agi")"
+
+case $agi in
+  85) rollframes="0.1667" ;;
+  86) rollframes="0.2667" ;;
+  87) rollframes="0.2667" ;;
+  88) rollframes="0.3" ;;
+  89) rollframes="0.3" ;;
+  90) rollframes="0.3" ;;
+  91) rollframes="0.3" ;;
+  92) rollframes="0.3333" ;;
+  93) rollframes="0.3333" ;;
+  94) rollframes="0.3333" ;;
+  95) rollframes="0.3333" ;;
+  96) rollframes="0.3667" ;;
+  97) rollframes="0.3667" ;;
+  98) rollframes="0.3667" ;;
+  99) rollframes="0.4" ;;
+  100) rollframes="0.4" ;;
+  101) rollframes="0.4" ;;
+  102) rollframes="0.4" ;;
+  103) rollframes="0.4" ;;
+  104) rollframes="0.4" ;;
+  105) rollframes="0.4333" ;;
+  106) rollframes="0.4333" ;;
+  107) rollframes="0.4333" ;;
+  109) rollframes="0.4333" ;;
+  110) rollframes="0.4333" ;;
+  111) rollframes="0.4667" ;;
+  112) rollframes="0.4667" ;;
+  113) rollframes="0.4667" ;;
+  114) rollframes="0.5" ;;
+  115) rollframes="0.5" ;;
+  116) rollframes="0.5.333" ;;
+  *) rollframes="N/A" ;;
+esac
+
+echo "Adaptability (ADP): $adp"
+echo "Attunement (ATN): $atn"
+echo "Agility (AGI): $agi"
+echo "Rollframes: $rollframes"

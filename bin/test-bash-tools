@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#shellcheck source=../lib/bash-tools/lib.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/bash-tools/lib.sh"
+
+echo "__DIR: $__DIR"
+echo "__FILE: $__FILE"
+echo "__ROOT: $__ROOT"
