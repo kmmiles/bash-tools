@@ -1,8 +1,5 @@
 #!/bin/bash
 
-DOWNLOADS="$HOME/Downloads"
-export DOWNLOADS
-
 ################################################################################
 # Downloads url
 # Arguments:
@@ -21,17 +18,17 @@ dl() {
   fi
 
   filename=$(basename "$url")
-  filepath="$DOWNLOADS/$filename"
+  filepath="$HOME"/Downloads/"$filename"
 
   # destination directory must exist
-  if [[ ! -d "$DOWNLOADS" ]]; then
-    log_err "Directory does not exist \"$DOWNLOADS\"."
+  if [[ ! -d "$HOME"/Downloads ]]; then
+    log_err "Directory does not exist \"$HOME/Downloads\"."
     return 1 
   fi
 
   # download file
   if [[ ! -f "$filepath" ]]; then
-    log_info "Downloading \"$url\" to \"$DOWNLOADS\"..."
+    log_info "Downloading \"$url\" to \"$HOME/Downloads\"..."
     if ! curl -sfL -o "$filepath" "$url" > /dev/null; then
       log_err "Failed to download \"$url\"."
       return 1
