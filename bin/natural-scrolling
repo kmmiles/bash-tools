@@ -1,0 +1,10 @@
+#!/bin/bash
+
+getid() {
+  xinput --list | \
+    grep -i touchpad | \
+    awk '{print $5}' | \
+    awk -F= '{print $2}'
+}
+
+xinput set-prop "$(getid)" "libinput Natural Scrolling Enabled" 1

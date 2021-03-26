@@ -3,7 +3,7 @@
 #shellcheck source=../lib/bash-tools/lib.sh
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/bash-tools/lib.sh"
 
-dest_basedir="$HOME/Code"
+dest_basedir="$HOME/.local/src"
 owner_default="$(id -un)"
 shallow=false
 branch=

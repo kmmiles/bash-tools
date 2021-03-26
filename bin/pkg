@@ -1,0 +1,54 @@
+#!/bin/bash
+
+#shellcheck source=../lib/bash-tools/lib.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/bash-tools/lib.sh"
+
+#ppa:aslatter/ppa
+#alacritty
+#https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+#https://github.com/ClementTsang/bottom/releases/download/0.5.7/bottom_0.5.7_amd64.deb
+#https://raw.githubusercontent.com/denilsonsa/prettyping/master/prettyping
+#https://github.com/ogham/exa/releases/download/v0.9.0/exa-linux-x86_64-0.9.0.zip
+#https://github.com/charmbracelet/glow/releases/download/v1.0.2/glow_1.0.2_linux_x86_64.tar.gz
+#https://github.com/dense-analysis/ale.git
+#https://github.com/morhetz/gruvbox.git
+#https://yt-dl.org/downloads/latest/youtube-dl
+#https://github.com/Schniz/fnm/releases/download/v1.23.0/fnm-linux.zip
+
+
+topdir() { echo "$1" | cut -d'/' -f 1; }
+
+has_toplevel_dir() {
+  tar --list -f "$filename" |
+
+}
+
+
+
+handle_tarball() {
+  local filename
+  filename=${1:-}
+
+  tar --list -f "$filename" |
+    while read -r f; do
+      topdir "$f"
+      #dirname "$f"
+      #echo "f: $f"
+      #dirname "$f"
+    done
+}
+
+
+
+x=$(dl https://github.com/charmbracelet/glow/releases/download/v1.0.2/glow_1.0.2_linux_x86_64.tar.gz)
+#x=$(dl https://github.com/mikefarah/yq/releases/download/v4.6.1/yq_linux_amd64.tar.gz)
+#x=$(dl https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz)
+case "$x" in
+  *.tar.gz)
+    #handle_tarball "$x"
+    has_toplevel_dir "$x"
+    ;;
+  *)
+    echo "Unknown format"
+    ;;
+esac
