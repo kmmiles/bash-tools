@@ -1,0 +1,14 @@
+#!/bin/bash
+
+filename="${1:-}"
+if [[ -z "$filename" ]]; then
+  2>&1 printf "Usage: %s <filename>\n" "$0"
+  exit 1
+fi
+
+actual=$(du --block-size=1 "$1" | cut -f 1)
+apparent=$(du --apparent-size --block-size=1 "$1" | cut -f 1)
+
+echo "filename: $1"
+echo "actual: $actual"
+echo "apparent: $apparent"

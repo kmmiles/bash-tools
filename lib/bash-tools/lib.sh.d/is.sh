@@ -9,4 +9,11 @@ if [[ "$(systemctl get-default)" == "graphical.target" ]]; then
 else
   IS_GUI=false
 fi
-export IS_UBUNTU IS_DEBIAN IS_WSL IS_GUI
+
+if [[ "$(id -u)" == "0" ]]; then
+  IS_ROOT=true
+else
+  IS_ROOT=false
+fi
+
+export IS_ROOT IS_UBUNTU IS_DEBIAN IS_WSL IS_GUI

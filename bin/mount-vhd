@@ -1,0 +1,67 @@
+#!/bin/bash
+
+#shellcheck source=../lib/bash-tools/lib.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/bash-tools/lib.sh"
+
+if $IS_ROOT; then
+  log_err "Don't run this as root."
+  exit 1
+fi
+
+usage() {
+  cat << EOF >&2
+Usage: $(basename "$0") [OPTIONS] <VHDFILE> <MOUNTDIR>
+
+Mounts <VHDFILE> to <MOUNTDIR>. 
+
+OPTIONS:
+
+  -h            This message
+EOF
+}
+
+is_mounted() {
+  while read -r m; do
+    if [[ "$m" == "${1:-}" ]]; then
+      return 0
+    fi
+  done < <(mount | cut -d' ' -f 3)
+  return 1
+}
+
+while getopts 'h' flag; do
+  case "${flag}" in
+    h) usage ; exit 1 ;; 
+    *) usage ; exit 1 ;; 
+  esac
+done
+shift $((OPTIND-1))
+
+vhdfile="${1:-}"
+mountdir="${2:-}"
+
+if [[ -z "$vhdfile" || -z "$mountdir" ]]; then
+  usage
+  exit 1
+fi
+
+if [[ ! -f "$vhdfile" ]]; then
+  log_err "No such file: $vhdfile"
+  exit 1
+fi
+
+if [[ ! -d "$mountdir" ]]; then
+  log_err "No such directory: $mountdir"
+  exit 1
+fi
+
+if is_mounted "$mountdir"; then
+  log_err "Directory already mounted! ($mountdir)"
+  exit 1
+fi
+
+guestmount \
+  --add "$vhdfile" \
+  --inspector \
+  --ro \
+  "$mountdir"

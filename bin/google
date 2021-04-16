@@ -1,0 +1,13 @@
+#!/bin/bash
+
+baseurl=https://www.google.com/search?q=PATH_MAX
+search="$1"
+
+if [[ -z "$search" ]]; then
+  printf "Usage: %s <search>\n" "$0"
+  exit 1
+fi
+
+url="${baseurl}${search}"
+links "$url"
+
