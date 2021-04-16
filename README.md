@@ -1,3 +1,3 @@
 # bash-tools
 
-Library of common bash script stuff
+Poorly organized bash scripts and functions
