@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+printf "Bash me\n"
+
+# TODO: Need to read a list of bins. 
+
+for arg; do
+   echo "$arg"
+done
+
+
+
+

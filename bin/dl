@@ -3,6 +3,8 @@
 #shellcheck source=../lib/bash-tools/lib.sh
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/lib/bash-tools/lib.sh"
 
+printf "%s\n", "$PATH"
+
 usage() {
   cat << EOF >&2
 Usage: $(basename "$0") <url>

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# extract a tar, zip, rar, etc with the same defaults:
+#
+#  foobar.tar.gz
+#   -> foobar/
+#       -> this.txt
+#       -> that.txt

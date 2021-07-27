@@ -12,7 +12,7 @@ usage() {
   cat << EOF >&2
 Usage: $(basename "$0") <repo>
 
-Clones <repo> to "$dest_basedir" if it doesn't exist then prints the location.
+Clones <repo> to "$dest_basedir" if necessary and prints it's location.
 
 <repo> is [owner/]<name>. If owner is not specified, "$owner_default" will be used.
 
